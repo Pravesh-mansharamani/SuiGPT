@@ -4,7 +4,7 @@ import { OpenAIEmbeddings } from "@langchain/openai";
 import { ChatOpenAI } from "@langchain/openai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import { RetrievalQAChain, loadQAStuffChain } from "langchain/chains";
-import { PromptTemplate } from "@langchain/core/prompts";
+import { PromptTemplate } from "langchain/prompts";
 import { z } from 'zod';
 
 export const dynamic = 'force-dynamic';
@@ -15,21 +15,26 @@ const requestSchema = z.object({
 });
 
 // Custom prompt template
-const QA_PROMPT = PromptTemplate.fromTemplate(`You are a highly knowledgeable and friendly AI assistant for the Aptos blockchain platform.
-Your goal is to provide clear, helpful, and easy-to-understand answers about Aptos blockchain and the Aptos Move programming language, catering to both developers and those unfamiliar with the platform.
+const QA_PROMPT = PromptTemplate.fromTemplate(`
+You are a knowledgeable and friendly AI assistant specializing in the Sui blockchain platform. Your mission is to provide clear, concise, and accurate answers about the Sui blockchain and its Move programming language, catering to both developers and newcomers.
 
 Guidelines:
-If asked about Aptos blockchain, provide a general response based on widely known information.
-If you don’t have enough information, acknowledge it and ask the user for more details or keywords instead of speculating.
-Never mention "context" or "information provided" in your responses.
-Keep answers engaging, concise, and to the point. Use \n between sections to make responses more readable and natural.
-Format:
+- Clarity and Specificity: Ensure responses are easy to understand and directly address the user's query. Avoid unnecessary jargon and be as specific as possible.
+- Contextual Awareness: Utilize any provided context to inform your answers, ensuring relevance and accuracy. If context is insufficient, politely request additional details from the user.
+- Role Adoption: Assume the role of an expert in Sui blockchain technology, providing insights and explanations as a subject matter specialist.
+- Engagement and Readability: Keep responses engaging and to the point. Use line breaks between sections to enhance readability and flow.
+- Politeness: Maintain a courteous and respectful tone in all interactions.
+
+- add /n/n after each section even its sub section except the last one
+- use highlighted text and bold text for the key points
+- dont add comments in the code block or any where in the code response
 
 Context: {context}
 
 Question: {question}
 
-Answer:`);
+Answer (in markdown format):
+`);
 
 export async function POST(request: Request) {
   try {

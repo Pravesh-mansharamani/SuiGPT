@@ -5,17 +5,18 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, User, Bot } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { useToast } from '@/hooks/use-toast';
-import { Plus_Jakarta_Sans } from 'next/font/google';
-
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'] });
+import { ModeToggle } from '@/components/mode-toggle';
+import { CursorTypewriter, TopicsTypewriter } from '@/components/typewriter-effect';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+const topics = ['Sui', 'Move Language', 'Smart Contracts', 'Blockchain Development'];
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -68,7 +69,7 @@ export default function Home() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && e.shiftKey) {
-      return; // Allow new line with Shift+Enter
+      return;
     }
     
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -78,112 +79,122 @@ export default function Home() {
   };
 
   return (
-    <div className={`flex flex-col h-screen bg-[hsl(0_0%_100%)] ${plusJakarta.className}`}>
-      <header className="flex items-center justify-center py-6 bg-gradient-to-b from-white to-transparent backdrop-blur-sm border-b border-slate-100">
-        <div className="relative">
-          <h1 className="text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-emerald-600 tracking-tight">
-            AptosGPT
-          </h1>
-          <div className="absolute -inset-x-6 -inset-y-4 bg-gradient-to-r from-teal-100 to-emerald-100 opacity-20 blur-2xl rounded-full" />
+    <div className="flex flex-col h-screen bg-white">
+      <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div className="flex h-20 items-center justify-center max-w-screen-xl mx-auto px-4">
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <h1 className="text-4xl font-bold text-slate-900 flex items-center gap-1 whitespace-nowrap">
+              <span>Sui</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-700">
+                GPT
+              </span>
+              <CursorTypewriter text="_" />
+            </h1>
+          </div>
         </div>
       </header>
 
-      <main className="flex-grow flex flex-col">
-        <div className="flex-grow relative overflow-hidden">
-          <Card className="absolute inset-0 m-6 bg-white/50 backdrop-blur-sm border border-slate-200 shadow-xl">
-            <ScrollArea className="h-full p-6" ref={scrollAreaRef}>
-              {messages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-slate-500">
-                  <div className="p-4 rounded-full bg-gradient-to-br from-teal-50 to-emerald-50 mb-4">
-                    <svg
-                      className="w-8 h-8 text-teal-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    </svg>
-                  </div>
-                  <p className="text-xl font-medium text-slate-700">How can I help you with Aptos today?</p>
+      <main className="flex-1 overflow-hidden p-4 md:p-6 bg-white">
+        <Card className="flex flex-col h-[calc(100vh-8rem)] border-0 shadow-sm bg-white">
+          <ScrollArea 
+            className="flex-1 p-4 md:p-6"
+            ref={scrollAreaRef}
+          >
+            {messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-full space-y-6">
+                <div className="p-6 rounded-full bg-blue-50">
+                  <Bot className="w-12 h-12 text-blue-600" />
                 </div>
-              ) : (
-                <div className="space-y-6">
-                  {messages.map((message, index) => (
+                <div className="text-center">
+                  <div className="text-2xl font-medium text-slate-900 flex items-center gap-2 justify-center flex-wrap">
+                    Hi! How can I help you with{" "}
+                    <TopicsTypewriter topics={topics} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-6 max-w-4xl mx-auto">
+                {messages.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-start gap-3 ${
+                      message.role === 'user' ? 'justify-end' : 'justify-start'
+                    }`}
+                  >
+                    {message.role === 'assistant' && (
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <Bot className="w-5 h-5 text-blue-600" />
+                      </div>
+                    )}
                     <div
-                      key={index}
-                      className={`p-4 rounded-2xl ${
-                        message.role === 'user' 
-                          ? 'bg-gradient-to-br from-teal-500 to-emerald-500 text-white ml-12' 
-                          : 'bg-slate-200 text-slate-900 mr-12'
+                      className={`rounded-2xl px-5 py-3 max-w-[80%] shadow-sm ${
+                        message.role === 'user'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-slate-50 text-slate-900'
                       }`}
                     >
-                      <div className="flex items-start gap-4">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      <ReactMarkdown 
+                        className={`prose ${
                           message.role === 'user' 
-                            ? 'bg-white/20' 
-                            : 'bg-gradient-to-br from-teal-500 to-emerald-500'
-                        }`}>
-                          {message.role === 'user' ? '👤' : '🤖'}
-                        </div>
-                        <div className={`flex-grow prose ${
-                          message.role === 'user' ? 'prose-invert' : 'prose-slate'
-                        }`}>
-                          <ReactMarkdown>{message.content}</ReactMarkdown>
-                        </div>
-                      </div>
+                            ? 'prose-invert prose-p:text-white prose-headings:text-white' 
+                            : 'prose-slate prose-p:text-slate-900 prose-headings:text-slate-900 prose-strong:text-slate-900 prose-a:text-blue-600'
+                        } max-w-none prose-p:leading-relaxed prose-p:whitespace-pre-wrap prose-pre:bg-slate-100 prose-pre:p-4 prose-pre:rounded-lg prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-li:text-slate-900 prose-headings:mb-4 prose-p:my-3 prose-ul:my-4 prose-ol:my-4 prose-pre:overflow-x-auto prose-pre:w-full`}
+                        components={{
+                          p: ({ children }) => (
+                            <p className="whitespace-pre-wrap">{children}</p>
+                          ),
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
                     </div>
-                  ))}
-                  {isLoading && (
-                    <div className="p-4 rounded-2xl bg-slate-200 mr-12">
-                      <div className="flex items-start gap-4">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-emerald-500 flex-shrink-0 flex items-center justify-center">
-                          🤖
-                        </div>
-                        <div className="typing-indicator">
-                          <span></span>
-                          <span></span>
-                          <span></span>
-                        </div>
+                    {message.role === 'user' && (
+                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+                        <User className="w-5 h-5 text-white" />
                       </div>
+                    )}
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="flex justify-start items-start gap-3">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <Bot className="w-5 h-5 text-blue-600" />
                     </div>
-                  )}
-                </div>
-              )}
-            </ScrollArea>
-          </Card>
-        </div>
+                    <div className="bg-slate-50 rounded-2xl px-5 py-3 shadow-sm">
+                      <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </ScrollArea>
 
-        <div className="p-6 bg-white border-t border-slate-200">
-          <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
-            <div className="flex gap-2 items-end">
+          <div className="border-t border-slate-100 bg-white p-4">
+            <form onSubmit={handleSubmit} className="flex gap-3 max-w-4xl mx-auto">
               <Textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about Aptos... (Shift+Enter for new line)"
-                className="flex-grow min-h-[60px] max-h-[60px] overflow-y-auto resize-none rounded-2xl bg-white border-slate-200 focus:border-teal-500 focus:ring-teal-500 shadow-lg text-slate-900"
+                placeholder="Ask about Sui... (Shift+Enter for new line)"
+                className="min-h-[56px] max-h-[200px] resize-none bg-slate-50 border-slate-200 focus:border-blue-500 rounded-xl text-slate-900 placeholder:text-slate-500"
                 disabled={isLoading}
               />
               <Button 
                 type="submit" 
+                size="icon"
                 disabled={isLoading || !input.trim()}
-                className="h-[60px] px-6 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 transition-all duration-200 shadow-lg"
+                className="h-[56px] w-[56px] bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm"
               >
                 {isLoading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
-                  <Send className="w-5 h-5" />
+                  <Send className="h-5 w-5" />
                 )}
               </Button>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+        </Card>
       </main>
     </div>
   );

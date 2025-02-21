@@ -1,14 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { ModeToggle } from '@/components/mode-toggle';
 
-const inter = Inter({ subsets: ['latin'] });
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AptosGPT - AI Assistant',
-  description: 'An intelligent chatbot for the Aptos blockchain platform',
+  title: 'SuiGPT',
+  description: 'An intelligent chatbot for the SUI blockchain platform',
 };
 
 export default function RootLayout({
@@ -18,15 +19,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+      <body className={`${plusJakarta.className} antialiased`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
+          defaultTheme="system"
+          enableSystem
         >
-          {children}
-          <Toaster />
+          <div className="relative min-h-screen">
+            {children}
+            <Toaster />
+          </div>
         </ThemeProvider>
       </body>
     </html>
