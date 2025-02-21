@@ -2,6 +2,10 @@
 
 SuiGPT is an AI-powered chatbot specifically designed to help developers and users understand the Sui blockchain platform and Move programming language. It provides real-time, accurate responses to queries about Sui development, smart contracts, and blockchain concepts.
 
+## Video Demo
+
+[![SuiGPT Demo](https://cdn.loom.com/sessions/thumbnails/ac9389f5d0dc409ea4eb059536be43eb-087d812968efbae5-full-play.gif)](https://cdn.loom.com/sessions/thumbnails/ac9389f5d0dc409ea4eb059536be43eb-087d812968efbae5-full-play.gif)
+
 ## Features
 
 - 🤖 **Intelligent Responses**: Powered by GPT-4 for accurate and context-aware answers
