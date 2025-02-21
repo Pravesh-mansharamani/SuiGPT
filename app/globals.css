@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+  
+  /* Custom theme colors */
+  --coral-blue: 167, 243, 255;
+  --coral-green: 84, 255, 207;
+  --dark-surface: 18, 18, 18;
+  --dark-surface-2: 28, 28, 28;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 167 100% 83%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 164 100% 66%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 167 100% 83%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 167 100% 83%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(to bottom, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
+  }
+}
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(135deg, rgb(var(--coral-blue)), rgb(var(--coral-green)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message {
+  @apply p-4 rounded-lg mb-4 animate-in fade-in-0 slide-in-from-bottom-4 max-w-[80%];
+}
+
+.user-message {
+  @apply bg-muted ml-auto;
+}
+
+.assistant-message {
+  @apply bg-card mr-auto;
+}
+
+.code-block {
+  @apply bg-muted p-4 rounded-lg my-2 font-mono text-sm overflow-x-auto;
+}
+
+.markdown-content {
+  @apply space-y-4;
+}
+
+.markdown-content p {
+  @apply leading-7;
+}
+
+.markdown-content pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto;
+}
+
+.markdown-content code {
+  @apply font-mono text-primary;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  @apply font-bold text-primary mt-6 mb-4;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply pl-6 my-4;
+}
+
+.markdown-content ul {
+  @apply list-disc;
+}
+
+.markdown-content ol {
+  @apply list-decimal;
+}
+
+.highlight {
+  @apply text-primary font-semibold;
+}
+
+.typing-indicator {
+  @apply flex space-x-1 items-center;
+}
+
+.typing-indicator span {
+  @apply w-2 h-2 bg-primary rounded-full animate-bounce;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.chat-input {
+  @apply resize-none overflow-hidden min-h-[44px] max-h-[200px] leading-relaxed;
+}
