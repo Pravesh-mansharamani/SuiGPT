@@ -61,10 +61,3 @@ http://localhost:3000
 - Pinecone Vector Database
 - OpenAI GPT-4
 
-## Contributing
-
-Feel free to open issues and pull requests for any improvements you'd like to add.
-
-## License
-
-MIT License - feel free to use this project for your own learning and development! 
