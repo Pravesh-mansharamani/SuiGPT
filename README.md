@@ -42,14 +42,42 @@ cd suigpt
 pnpm install
 ```
 
-3. Run the development server:
+3. Install TypeScript execution dependencies:
+```bash
+pnpm add -D tsx
+```
+
+4. Run the development server:
 ```bash
 pnpm dev
 ```
 
-4. Open your browser and visit:
+5. Open your browser and visit:
 ```
 http://localhost:3000
+```
+
+### Running TypeScript Scripts
+
+To run TypeScript scripts (like processEmbeddings.ts), use:
+
+```bash
+pnpm tsx scripts/processEmbeddings.ts
+```
+
+Or add this to your package.json scripts:
+
+```json
+{
+  "scripts": {
+    "process-embeddings": "tsx scripts/processEmbeddings.ts"
+  }
+}
+```
+
+Then run:
+```bash
+pnpm process-embeddings
 ```
 
 ## Tech Stack
@@ -60,4 +88,12 @@ http://localhost:3000
 - Langchain
 - Pinecone Vector Database
 - OpenAI GPT-4
+
+## Contributing
+
+Feel free to open issues and pull requests for any improvements you'd like to add.
+
+## License
+
+MIT License - feel free to use this project for your own learning and development!
 
