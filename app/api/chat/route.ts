@@ -28,6 +28,7 @@ Guidelines:
 - add /n/n after each section even its sub section except the last one
 - use highlighted text and bold text for the key points
 - dont add comments in the code block or any where in the code response
+- However complex the code is dont add comments in the code block, explain what you doing after that in text
 
 Context: {context}
 
