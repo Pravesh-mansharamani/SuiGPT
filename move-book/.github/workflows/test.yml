@@ -1,0 +1,29 @@
+name: Run tests for Move packages
+
+# Set the VERSION variable to use when downloading the binary
+# Currently, requires explicit setup, ideally it should be fetched
+# automatically
+# env:
+#   VERSION: 'v1.24.1'
+
+on:
+  pull_request:
+
+jobs:
+  download-binary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Sui
+        uses: jaxxstorm/action-install-gh-release@v1.12.0
+        with:
+          repo: MystenLabs/sui
+          platform: ubuntu
+          version: main
+          cache: enable
+
+      # Run the tests in every directory using the latest mainnet binary
+      - run: sui move test --path packages/samples
+      - run: sui move test --path packages/reference
+      - run: sui move test --path packages/todo_list
+      - run: sui move test --path packages/hello_world
